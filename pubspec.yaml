@@ -1,0 +1,33 @@
+name: flutter_fundamentals_app
+description: "A new Flutter Fundamentals project"
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.1.4
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  fonts:
+    - family: SpaceGrotesk
+      fonts:
+        - asset: lib/core/fonts/SpaceGrotesk-Bold.ttf
+          weight: 700
+          style: normal
+        - asset: lib/core/fonts/SpaceGrotesk-SemiBold.ttf
+        - asset: lib/core/fonts/SpaceGrotesk-Light.ttf
+        - asset: lib/core/fonts/SpaceGrotesk-Medium.ttf
+        - asset: lib/core/fonts/SpaceGrotesk-Regular.ttf
+          weight: 400
+          style: normal
+  uses-material-design: true
