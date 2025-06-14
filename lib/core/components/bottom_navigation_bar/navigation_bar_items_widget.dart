@@ -5,11 +5,9 @@ import 'package:flutter_fundamentals_app/core/components/bottom_navigation_bar/n
 final class NavigatioBarItemsWidget extends StatelessWidget {
   const NavigatioBarItemsWidget({
     super.key,
-    required this.theme,
     required this.model,
   });
 
-  final ThemeData theme;
   final BottomNavigationModel model;
 
   @override
@@ -19,14 +17,11 @@ final class NavigatioBarItemsWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: model.items.map((item) {
         int itemIndex = model.items.indexOf(item);
-        Color color = model.indexSelected == itemIndex
-            ? theme.primaryColor
-            : theme.canvasColor;
+        bool isSelected = model.indexSelected == itemIndex;
         return NavigationBarItemWidget(
           icon: item.icon,
           label: item.label,
-          iconColor: color,
-          labelColor: color,
+          selected: isSelected,
           onTap: () => model.onSelect(itemIndex),
         );
       }).toList(),
