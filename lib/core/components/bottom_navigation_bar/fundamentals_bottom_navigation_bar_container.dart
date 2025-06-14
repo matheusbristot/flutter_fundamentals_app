@@ -9,7 +9,6 @@ final class FundamentalsBottomNavigationBarContainer
     super.key,
   }) : super(
           builder: (context, model, _) {
-            final theme = Theme.of(context);
             return Container(
               height: 64,
               margin: EdgeInsets.only(
@@ -18,7 +17,7 @@ final class FundamentalsBottomNavigationBarContainer
                 bottom: 24,
               ),
               decoration: BoxDecoration(
-                color: theme.primaryColor,
+                color: Theme.of(context).colorScheme.secondaryContainer,
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
@@ -29,7 +28,6 @@ final class FundamentalsBottomNavigationBarContainer
                 ],
               ),
               child: NavigatioBarItemsWidget(
-                theme: theme,
                 model: model,
               ),
             );
