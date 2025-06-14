@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fundamentals_app/core/components/bottom_navigation_bar/fundamentals_bottom_navigation_bar_container.dart';
-import 'package:flutter_fundamentals_app/features/counter/presenter/viewmodel/counter_viewmodel.dart';
 import 'package:flutter_fundamentals_app/core/components/bottom_navigation_bar/bottom_navigation_model.dart';
 import 'package:provider/provider.dart';
 
@@ -44,14 +43,7 @@ final class DashBoardPage extends StatelessWidget {
                 : SizedBox.shrink();
           },
         ),
-        bottomNavigationBar: ListenableBuilder(
-          listenable: context.watch<CounterViewmodel>(),
-          builder: (context, child) {
-            return context.read<CounterViewmodel>().number > 2
-                ? FundamentalsBottomNavigationBarContainer()
-                : SizedBox.shrink();
-          },
-        ),
+        bottomNavigationBar: FundamentalsBottomNavigationBarContainer(),
       ),
     );
   }

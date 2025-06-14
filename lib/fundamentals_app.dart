@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fundamentals_app/core/theme/theme_fundamentals.dart';
 import 'package:flutter_fundamentals_app/core/theme/theme_unwrap.dart';
+import 'package:flutter_fundamentals_app/features/chart/presenter/widgets/chart_list_widget.dart';
 import 'package:flutter_fundamentals_app/features/counter/presenter/viewmodel/counter_viewmodel.dart';
 import 'package:flutter_fundamentals_app/features/counter/presenter/widgets/increment_button.dart';
 import 'package:flutter_fundamentals_app/features/counter/presenter/widgets/increment_content.dart';
 import 'package:flutter_fundamentals_app/features/dashboard/presenter/page/dashboard_page.dart';
+import 'package:flutter_fundamentals_app/navigator/fundamentals_app_navigator.dart';
 import 'package:provider/provider.dart';
 
 class FundamentalsApp extends StatefulWidget {
@@ -16,6 +18,7 @@ class FundamentalsApp extends StatefulWidget {
 
 class _FundamentalsAppState extends State<FundamentalsApp>
     with WidgetsBindingObserver {
+  final FundamentalsAppNavigator navigator = FundamentalsAppNavigator.instance;
   @override
   void initState() {
     super.initState();
@@ -24,13 +27,17 @@ class _FundamentalsAppState extends State<FundamentalsApp>
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => CounterViewmodel()),
-        ],
-        builder: (context, providerChild) {
-          return DashBoardPage(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CounterViewmodel()),
+      ],
+      builder: (context, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          onGenerateRoute: (settings) {
+            return navigator.onGenerateRoute(settings);
+          },
+          home: DashBoardPage(
             title: 'Fundamentals',
             childrenFloatingActionButton: [
               IncrementButton(
@@ -42,23 +49,19 @@ class _FundamentalsAppState extends State<FundamentalsApp>
                 counterViewmodel: context.watch<CounterViewmodel>(),
                 themeData: Theme.of(context),
               ),
-              Center(
-                child: Text('List Page',
-                    style: Theme.of(context).textTheme.bodyLarge),
-              )
+              ChartListWidget()
             ],
-          );
-        },
-      ),
-      debugShowCheckedModeBanner: false,
-      builder: (context, child) {
-        final themeWrap = ThemeFundamentalsWrap.on(context: context);
-        return ThemeFundamentals(
-          data: themeWrap.themeData,
-          child: AnimatedTheme(
-            data: themeWrap.themeData.themeData,
-            child: child ?? SizedBox.shrink(),
           ),
+          builder: (context, child) {
+            final themeWrap = ThemeFundamentalsWrap.on(context: context);
+            return ThemeFundamentals(
+              data: themeWrap.themeData,
+              child: AnimatedTheme(
+                data: themeWrap.themeData.themeData,
+                child: child ?? SizedBox.shrink(),
+              ),
+            );
+          },
         );
       },
     );
