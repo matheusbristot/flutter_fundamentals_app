@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_fundamentals_app/core/theme/theme_fundamentals.dart';
+import 'package:flutter/material.dart';
 
 final class ThemeFundamentalsWrap {
   ThemeFundamentalsWrap._({required this.themeData});

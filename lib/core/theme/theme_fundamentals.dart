@@ -1,25 +1,28 @@
-import "package:flutter/material.dart";
-import "package:flutter_fundamentals_app/core/theme/colors_fundamentals.dart";
-import "package:flutter_fundamentals_app/core/theme/typography_fundamentals.dart";
-import "package:provider/provider.dart";
+import 'package:flutter/material.dart';
+import 'package:flutter_fundamentals_app/core/theme/colors_fundamentals.dart';
+import 'package:flutter_fundamentals_app/core/theme/typography_fundamentals.dart';
 
-class ThemeFundamentals extends Provider<ThemeFundamentalsData> {
-  ThemeFundamentals({
+class ThemeFundamentals extends InheritedWidget {
+  final ThemeFundamentalsData data;
+  final void Function(ThemeFundamentalsData) updateTheme;
+
+  const ThemeFundamentals({
     super.key,
-    required ThemeFundamentalsData data,
-    required Widget child,
-  }) : super.value(
-          value: data,
-          child: child,
-        );
+    required this.data,
+    required this.updateTheme,
+    required super.child,
+  });
 
-  static ThemeFundamentalsData of(BuildContext context, {bool listen = true}) {
-    try {
-      return Provider.of<ThemeFundamentalsData>(context, listen: listen);
-    } on ProviderNotFoundException {
-      return ThemeFundamentalsData.light();
-    }
+  static ThemeFundamentals of(BuildContext context) {
+    final ThemeFundamentals? result =
+        context.dependOnInheritedWidgetOfExactType<ThemeFundamentals>();
+    assert(result != null, 'No ThemeFundamentals found in context');
+    return result!;
   }
+
+  @override
+  bool updateShouldNotify(ThemeFundamentals oldWidget) =>
+      data != oldWidget.data;
 }
 
 @immutable
