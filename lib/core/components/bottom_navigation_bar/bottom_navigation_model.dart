@@ -1,9 +1,30 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_fundamentals_app/core/viewmodel/command.dart';
+import 'package:flutter_fundamentals_app/core/viewmodel/result.dart';
 import 'package:flutter_fundamentals_app/features/dashboard/domain/entity/dashboard_item.dart';
 
-final class BottomNavigationModel with ChangeNotifier {
+final class BottomNavigationModel extends InheritedWidget {
+  BottomNavigationModel({
+    super.key,
+    required super.child,
+  });
+
+  static BottomNavigationModel of(BuildContext context) {
+    final BottomNavigationModel? result =
+        context.dependOnInheritedWidgetOfExactType<BottomNavigationModel>();
+    assert(result != null, 'No BottomNavigationModel found in context');
+    return result!;
+  }
+
+  @override
+  bool updateShouldNotify(covariant BottomNavigationModel oldWidget) {
+    return oldWidget._items != _items;
+  }
+
+  late final onSelectItem = Command1(onSelect);
+
   final List<DashboardItem> _items = <DashboardItem>[
     DashboardItem(
       true,
@@ -21,8 +42,8 @@ final class BottomNavigationModel with ChangeNotifier {
   bool get firstPageSelected => _items.first.selected;
   int get indexSelected => items.indexWhere((item) => item.selected);
 
-  void onSelect(int index) {
-    if (_items[index].selected) return;
+  AsyncResult<List<DashboardItem>> onSelect(int index) async {
+    if (_items[index].selected) return Future.value(onSelectItem.value);
     final newItems = _items.map(
       (item) => DashboardItem(
         !item.selected,
@@ -31,7 +52,6 @@ final class BottomNavigationModel with ChangeNotifier {
       ),
     );
     _items.setAll(0, newItems);
-
-    notifyListeners();
+    return Future.value(Result.success(items));
   }
 }

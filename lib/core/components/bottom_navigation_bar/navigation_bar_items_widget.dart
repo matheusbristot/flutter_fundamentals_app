@@ -22,7 +22,7 @@ final class NavigatioBarItemsWidget extends StatelessWidget {
           icon: item.icon,
           label: item.label,
           selected: isSelected,
-          onTap: () => model.onSelect(itemIndex),
+          onTap: () => model.onSelectItem.execute(itemIndex),
         );
       }).toList(),
     );
